@@ -14,6 +14,8 @@ function App() {
 		const coinName = formData.get("coin_name_field");
 
 		// TODO: inform user if coin name is not provided
+		// TODO: inform user if there are no results returned by the API
+
 		// Can you use React Hooks to achieve this functionality?
 
 		// TODO: fetch data from https://api.coinranking.com/v2/coins?search=${coinName} and save it into coinData
