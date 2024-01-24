@@ -12,6 +12,19 @@ function App() {
 		setIsLoading(true);
 		const formData = new FormData(event.target);
 		const coinName = formData.get("coin_name_field");
+		
+		// if (coinName==""){
+		// 	alert("Please provide the coin name!");
+		// }
+				
+		// if (coinData==null)
+		// {
+		// alert("We can't find a result for you. Are you sure that is correct huh?")
+		// };
+
+		fetch(`https://api.coinranking.com/v2/coins?search=${coinName}`);
+		const coinData = coinName;
+		console.log(coinData);
 
 		// TODO: inform user if coin name is not provided
 		// TODO: inform user if there are no results returned by the API
