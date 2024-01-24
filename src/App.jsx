@@ -7,24 +7,25 @@ function App() {
 	const [coinData, setCoinData] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 		setIsLoading(true);
 		const formData = new FormData(event.target);
 		const coinName = formData.get("coin_name_field");
-		
-		// if (coinName==""){
-		// 	alert("Please provide the coin name!");
-		// }
-				
-		// if (coinData==null)
-		// {
-		// alert("We can't find a result for you. Are you sure that is correct huh?")
-		// };
 
-		fetch(`https://api.coinranking.com/v2/coins?search=${coinName}`);
-		const coinData = coinName;
-		console.log(coinData);
+		const respones = await fetch(`https://api.coinranking.com/v2/coins?search=${coinName}`);
+		const data = await respones.json()
+		setCoinData(data);
+		// console.log(coinData);
+		// console.log(data);
+
+		if (coinName == "") {
+			alert("Please provide the coin name!");
+		}
+
+		if (coinData.data.stats.total == 0) {
+			alert("We can't find a result for you. Are you sure that is correct huh?")
+		}
 
 		// TODO: inform user if coin name is not provided
 		// TODO: inform user if there are no results returned by the API
@@ -37,7 +38,13 @@ function App() {
 	};
 
 	return (
+
 		<Container>
+			<div class="flex justify-center">
+				<img src="https://cdn.coinranking.com/0Ss-HT19O/btcv.svg" class="w-16" />
+			</div>
+			<h1 class="text-center">Crypto Finder</h1>
+
 			<Flex direction="column" gap="4">
 				<form onSubmit={handleSubmit}>
 					<Flex direction="column" gap="2">
@@ -60,7 +67,7 @@ function App() {
 				{coinData && coinData.status === "success" && (
 					<Flex direction="column" gap="4">
 						{coinData.data.coins.map((coin) => (
-							<Link key={`coin_${coin.uuid}`} to={"/CHANGE_ME" /* TODO: pass uuid to coin info page*/}>
+							<Link key={`coin_${coin.uuid}`} to={"/coins" /* TODO: pass uuid to coin info page*/}>
 								{/* TODO: create a custom component to display list of coins and pass these fields as props */}
 								<div>{coin.name}</div>
 								<div>{coin.symbol}</div>
